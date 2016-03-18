@@ -4,3 +4,46 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".txt" #>
+
+
+/// Magic happens here!
+
+
+
+
+
+
+
+
+
+
+<#+
+	public string GetTypeString(object value)
+	{
+		Guid guid;
+		if( Guid.TryParse(value.ToString(), out guid))
+		{
+			return "Guid";
+		}
+
+		decimal d;
+		if(decimal.TryParse(value.ToString(), out d))
+		{
+			return "decimal";
+		}
+
+		int i;
+		if(int.TryParse(value.ToString(), out i))
+		{
+			return "int";
+		}
+
+		bool b;
+		if (bool.TryParse(value.ToString(), out b))
+		{
+			return "bool";
+		}
+
+		return "string";
+	}
+#>
