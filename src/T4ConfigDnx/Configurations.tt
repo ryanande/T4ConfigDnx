@@ -10,14 +10,19 @@
 
 
 
-
-
-
-
-
-
-
 <#+
+
+
+	public Dictionary<string, string> GetAppSettings()
+	{
+		return new Dictionary<string, string>();
+	}
+
+	public Dictionary<string, string> GetConnectionStrings()
+	{
+		return new Dictionary<string, string>();
+	}
+
 	public string GetTypeString(object value)
 	{
 		Guid guid;
