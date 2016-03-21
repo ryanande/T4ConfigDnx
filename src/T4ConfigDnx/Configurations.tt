@@ -24,6 +24,7 @@ var createObjectInterface = true;							// The use of a custom interface, or set
 
 var path = Path.GetDirectoryName(this.Host.TemplateFile);
 var settingsFilePath = Path.Combine(path, settingsFile);
+var namespaceName = System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("NamespaceHint");
 
 
 #>
@@ -39,67 +40,125 @@ var settingsFilePath = Path.Combine(path, settingsFile);
 
 using (StreamReader file = File.OpenText(Path.Combine(path, settingsFilePath)))
 {
+	
 	string json = file.ReadToEnd();
-	//var settingsData = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-	var settingsData = JObject.Parse(json);
+	var array = (JObject)JsonConvert.DeserializeObject(json);
+	var list = array[appSettingSectionArray].ToList();
 
-	var settings =
-		from p in settingsData[appSettingSectionArray]
-		select p;
-
-	foreach (var item in settingsData)
-	{
+	// interface builder
 	#>
-		
-	<#
-	}
+namespace <#= namespaceName #>
+{
+	using System;
 
-}
+	<#= "public interface I" + appSettingSectionArray + " {" #>
+<#
+	foreach (var item in list)
+	{
+#>
+		<#= GetInterfacePropertyString(((JProperty)item).Name, ((JProperty)item).Value.ToString()) #>
+<#
+	}
+#>
+	} // close interface
+
+	public class <#=appSettingSectionArray#> : I<#=appSettingSectionArray#> {
+<#
+	 // class builder
+    
+    foreach (var item in list)
+    {
+	#>
+    <#= GetClassPrivatePropertyString(((JProperty)item).Name, ((JProperty)item).Value.ToString()) #>
+    <#= GetClassPublicPropertyString(((JProperty)item).Name, ((JProperty)item).Value.ToString()) #>
+
+    <#
+	}
+	#>
+    
+	<#=GetSettingMethod()#>
+	
+    } // close class
+	<#
+} 
 
 #>
-
+} // close ns
 
 <#+
 
 
-	public Dictionary<string, string> GetAppSettings()
-	{
-		//TODO: This is where we need to decide where we get the settings from; Array of Settings sections, defaulting to AppSettings
+		private string GetInterfacePropertyString(string key, string value)
+        {
+            var type = GetTypeString(value);
+            return string.Format(@"{0} {1} {{ get; }}", type, key);
+        }
 
-		return new Dictionary<string, string>();
-	}
+        private string GetClassPrivatePropertyString(string key, string value)
+        {
 
-	public Dictionary<string, string> GetConnectionStrings()
-	{
-		return new Dictionary<string, string>();
-	}
+            var type = GetTypeString(value);
+            return string.Format("private static readonly Lazy<{0}> _{1} = new Lazy<{0}>(() => {2});", type, LowerFirst(key), GetConversion(type, key));
+        }
 
-	public string GetTypeString(object value)
-	{
-		Guid guid;
-		if( Guid.TryParse(value.ToString(), out guid))
-		{
-			return "Guid";
-		}
+        private string GetClassPublicPropertyString(string key, string value)
+        {
+            var type = GetTypeString(value);
+            return string.Format("public virtual {0} {1} =>  _{2}.Value;",type, key, LowerFirst(key));
+        }
 
-		decimal d;
-		if(decimal.TryParse(value.ToString(), out d))
-		{
-			return "decimal";
-		}
+        private static string GetConversion(string type, string key)
+        {
+            switch (type)
+            {
+                case "Guid":
+                    return string.Format(@"new Guid(GetSetting(""{0}""))", key);
+                case "int":
+                    return string.Format(@"Convert.ToInt32(GetSetting(""{0}""))", key);
+                case "bool":
+                    return string.Format(@"Convert.ToBoolean(GetSetting(""{0}""))", key);
+                case "decimal":
+                    return string.Format(@"Convert.ToDecimal(GetSetting(""{0}""))", key);
+                default:
+                    return string.Format(@"GetSetting(""{0}"")", key);
+            }
+        }
 
-		int i;
-		if(int.TryParse(value.ToString(), out i))
-		{
-			return "int";
-		}
+        public string GetSettingMethod()
+        {
+            return "public static string GetSetting(string key) {{ return key; }}";
+        }
 
-		bool b;
-		if (bool.TryParse(value.ToString(), out b))
-		{
-			return "bool";
-		}
+        private  string GetTypeString(object value)
+        {
+            Guid guid;
+            if (Guid.TryParse(value.ToString(), out guid))
+            {
+                return "Guid";
+            }
 
-		return "string";
-	}
+            int i;
+            if (int.TryParse(value.ToString(), out i))
+            {
+                return "int";
+            }
+
+            decimal d;
+            if (decimal.TryParse(value.ToString(), out d))
+            {
+                return "decimal";
+            }
+
+            bool b;
+            if (bool.TryParse(value.ToString(), out b))
+            {
+                return "bool";
+            }
+
+            return "string";
+        }
+        public static string LowerFirst(string text)
+        {
+            return char.ToLower(text[0]) + text.Substring(1);
+        }
 #>
