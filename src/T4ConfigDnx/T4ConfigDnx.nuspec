@@ -12,6 +12,9 @@
     <description>T4Config is a text template which creates classes and interfaces for AppSetting and ConnectionString key value pair values to be strongly typed.</description>
     <releaseNotes></releaseNotes>
     <tags>T4 configuration Dnx C#</tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" />
+    </dependencies>
   </metadata>
   <files>
     <file src="Configurations.tt" target="Content" />
