@@ -1,2 +1,5 @@
 # T4ConfigDnx
-Class Generator for dnx appSetting.json files
+
+A down and dirty way to have strongly typed Config Settings and Connection Strings in your projects by using T4.
+
+Wt

@@ -18,4 +18,4 @@ if "%nuget%" == "" (
  
 mkdir Build
  
-%nuget% pack "src\T4Config\T4ConfigDnx.nuspec" -NoPackageAnalysis -verbosity detailed -o Build -Version %version% -p Configuration="%config%"
+%nuget% pack "src\T4ConfigDnx\T4ConfigDnx.nuspec" -NoPackageAnalysis -verbosity detailed -o Build -Version %version% -p Configuration="%config%"

@@ -9,7 +9,7 @@
     <licenseUrl>https://github.com/ryanande/T4ConfigDnx/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/ryanande/T4ConfigDnx</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>T4Config is a text template which creates classes and interfaces for AppSetting and ConnectionString key value pair values to be strongly typed.</description>
+    <description>T4ConfigDnx is a text template which creates classes and interfaces for appsetting and connectionString key value pair values from your appsetting.json files to be strongly typed.</description>
     <releaseNotes></releaseNotes>
     <tags>T4 configuration Dnx C#</tags>
     <dependencies>
