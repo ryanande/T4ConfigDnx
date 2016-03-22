@@ -10,6 +10,7 @@
 namespace T4ConfigDnx
 {
 	using System;
+
 	public interface IAppSettings
 	{
 		string SiteTitle { get; }
@@ -36,4 +37,4 @@ namespace T4ConfigDnx
 		public static string GetSetting(string key) {{ return key; }}
 	}
 	
-} // close ns
+}

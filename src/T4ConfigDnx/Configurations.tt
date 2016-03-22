@@ -40,14 +40,12 @@ using (StreamReader file = File.OpenText(Path.Combine(path, settingsFilePath)))
 	var array = (JObject)JsonConvert.DeserializeObject(json);
 	var list = array[appSettingSectionArray].ToList();
 #>
-namespace <#= namespaceName #>
-{
-	using System;
+<#= BuildFileHeader(namespaceName) #>
 <# if(!useIOptionInterfaceMethod) { #>
 <#= BuildInterface(list, appSettingSectionArray, useIOptionInterfaceMethod) #>
 <# } #>
 <#= BuildSettingClass(list, appSettingSectionArray, useIOptionInterfaceMethod) #>	
-} // close ns
+<#= BuildFileClose() #>
 <#
 }
 #>
@@ -109,6 +107,20 @@ namespace <#= namespaceName #>
 		return sb.ToString();
     }
 
+	private string BuildFileHeader(object ns)
+    {
+		var sb = new StringBuilder();
+		sb.AppendLine("namespace " + ns);
+		sb.AppendLine("{");
+		sb.Append("\t").AppendLine("using System;");
+
+		return sb.ToString();
+    }
+
+	private string BuildFileClose()
+    {
+		return "}";
+    }
 	
 	private string GetInterfacePropertyString(string key, string value)
     {
@@ -152,7 +164,7 @@ namespace <#= namespaceName #>
         }
     }
 
-    public string GetSettingMethod()
+    private string GetSettingMethod()
     {
         return "public static string GetSetting(string key) {{ return key; }}";
     }
@@ -185,7 +197,8 @@ namespace <#= namespaceName #>
 
         return "string";
     }
-    public static string LowerFirst(string text)
+
+    private static string LowerFirst(string text)
     {
         return char.ToLower(text[0]) + text.Substring(1);
     }
