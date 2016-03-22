@@ -9,37 +9,32 @@
 //------------------------------------------------------------------------------
 namespace T4ConfigDnx
 {
-    using System;
-
-    public interface IAppSettings
-    {
-        string SiteTitle { get; }
-        string SecondProperty { get; }
-        int PullInterval { get; }
-        decimal FactorValue { get; }
-        Guid ApiAccessId { get; }
-    } // close interface
-
-    public class AppSettings : IAppSettings
-    {
-        private static readonly Lazy<string> _siteTitle = new Lazy<string>(() => GetSetting("SiteTitle"));
-        public virtual string SiteTitle => _siteTitle.Value;
-
-        private static readonly Lazy<string> _secondProperty = new Lazy<string>(() => GetSetting("SecondProperty"));
-        public virtual string SecondProperty => _secondProperty.Value;
-
-        private static readonly Lazy<int> _pullInterval = new Lazy<int>(() => Convert.ToInt32(GetSetting("PullInterval")));
-        public virtual int PullInterval => _pullInterval.Value;
-
-        private static readonly Lazy<decimal> _factorValue = new Lazy<decimal>(() => Convert.ToDecimal(GetSetting("FactorValue")));
-        public virtual decimal FactorValue => _factorValue.Value;
-
-        private static readonly Lazy<Guid> _apiAccessId = new Lazy<Guid>(() => new Guid(GetSetting("ApiAccessId")));
-        public virtual Guid ApiAccessId => _apiAccessId.Value;
+	using System;
+	public interface IAppSettings
+	{
+		string SiteTitle { get; }
+		string SecondProperty { get; }
+		int PullInterval { get; }
+		decimal FactorValue { get; }
+		Guid ApiAccessId { get; }
+	}
 
 
-        public static string GetSetting(string key) { { return key; } }
+	public class AppSettings : IAppSettings 
+	{
+		private static readonly Lazy<string> _siteTitle = new Lazy<string>(() => GetSetting("SiteTitle"));
+		public virtual string SiteTitle =>  _siteTitle.Value;
+		private static readonly Lazy<string> _secondProperty = new Lazy<string>(() => GetSetting("SecondProperty"));
+		public virtual string SecondProperty =>  _secondProperty.Value;
+		private static readonly Lazy<int> _pullInterval = new Lazy<int>(() => Convert.ToInt32(GetSetting("PullInterval")));
+		public virtual int PullInterval =>  _pullInterval.Value;
+		private static readonly Lazy<decimal> _factorValue = new Lazy<decimal>(() => Convert.ToDecimal(GetSetting("FactorValue")));
+		public virtual decimal FactorValue =>  _factorValue.Value;
+		private static readonly Lazy<Guid> _apiAccessId = new Lazy<Guid>(() => new Guid(GetSetting("ApiAccessId")));
+		public virtual Guid ApiAccessId =>  _apiAccessId.Value;
 
-    } // close class
+
+		public static string GetSetting(string key) {{ return key; }}
+	}
+	
 } // close ns
-
