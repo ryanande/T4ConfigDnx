@@ -16,7 +16,7 @@
 
 var appSettingSectionArray = "AppSettings";			// A list of json setting sections you whish to create classes for
 var settingsFile = "appSettings.json";				// in case you have a custom setting json file name.
-var useIOptionInterfaceMethod = false;				// The use of a custom interface, or set to false if useing IOptions<T>
+var useIOptionInterfaceMethod = true;				// Defaults to use the dnx method with the IOptions<T> interface injection.
 			
 //########################################################################
 

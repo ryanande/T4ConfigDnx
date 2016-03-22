@@ -11,30 +11,13 @@ namespace T4ConfigDnx
 {
 	using System;
 
-	public interface IAppSettings
+	public class AppSettings 
 	{
-		string SiteTitle { get; }
-		string SecondProperty { get; }
-		int PullInterval { get; }
-		decimal FactorValue { get; }
-		Guid ApiAccessId { get; }
-	}
-
-	public class AppSettings : IAppSettings 
-	{
-		private static readonly Lazy<string> _siteTitle = new Lazy<string>(() => GetSetting("SiteTitle"));
-		public virtual string SiteTitle =>  _siteTitle.Value;
-		private static readonly Lazy<string> _secondProperty = new Lazy<string>(() => GetSetting("SecondProperty"));
-		public virtual string SecondProperty =>  _secondProperty.Value;
-		private static readonly Lazy<int> _pullInterval = new Lazy<int>(() => Convert.ToInt32(GetSetting("PullInterval")));
-		public virtual int PullInterval =>  _pullInterval.Value;
-		private static readonly Lazy<decimal> _factorValue = new Lazy<decimal>(() => Convert.ToDecimal(GetSetting("FactorValue")));
-		public virtual decimal FactorValue =>  _factorValue.Value;
-		private static readonly Lazy<Guid> _apiAccessId = new Lazy<Guid>(() => new Guid(GetSetting("ApiAccessId")));
-		public virtual Guid ApiAccessId =>  _apiAccessId.Value;
-
-
-		public static string GetSetting(string key) {{ return key; }}
+		public string SiteTitle { get; set; }
+		public string SecondProperty { get; set; }
+		public int PullInterval { get; set; }
+		public decimal FactorValue { get; set; }
+		public Guid ApiAccessId { get; set; }
 	}
 	
 }
