@@ -19,7 +19,6 @@ namespace T4ConfigDnx
 		Guid ApiAccessId { get; }
 	}
 
-
 	public class AppSettings : IAppSettings 
 	{
 		private static readonly Lazy<string> _siteTitle = new Lazy<string>(() => GetSetting("SiteTitle"));
