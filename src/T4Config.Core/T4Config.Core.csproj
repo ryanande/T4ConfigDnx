@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <targetFolder>$(MSBuildProjectDirectory)\..\CodeGeneration\bin\netstandard2.0</targetFolder>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <T4ParameterValues Include="targetFolder">
+      <Value>$(targetFolder)</Value>
+    </T4ParameterValues>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Configurations.tt">
+      <LastGenOutput>Configurations.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </Content>
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+</Project>
